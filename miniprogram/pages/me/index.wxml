@@ -1,0 +1,32 @@
+<!--pages/me/index.wxml-->
+<view class="me-container">
+  <view class="user-card">
+    <button class="avatar-wrapper" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+      <image class="avatar" src="{{userInfo.avatarUrl || '/images/avatar.png'}}"></image>
+    </button>
+    <view class="nickname-box">
+      <input type="nickname" class="nickname-input" placeholder="点击设置昵称" bindblur="onInputNickname" value="{{userInfo.nickName}}"/>
+      <text class="user-id">环保ID: {{openidShort}}</text>
+    </view>
+  </view>
+
+  <view class="menu-list">
+    <button class="menu-item-btn" open-type="feedback">
+      <text class="menu-text">问题反馈</text>
+      <text class="arrow">></text>
+    </button>
+
+    <view class="menu-item" bindtap="showHelp">
+      <text class="menu-text">帮助中心</text>
+      <text class="arrow">></text>
+    </view>
+
+    <view class="menu-item" bindtap="logout">
+      <text class="menu-text logout-text">退出登录</text>
+    </view>
+  </view>
+
+  <view class="footer">
+    <text>智能垃圾分类助手 v1.0</text>
+  </view>
+</view>

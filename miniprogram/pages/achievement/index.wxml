@@ -1,0 +1,22 @@
+<view class="container">
+  <view class="points-header">
+    <text class="points-title">我的累计积分</text>
+    <text class="points-number">{{totalPoints}}</text>
+    <text class="points-unit">分</text>
+  </view>
+
+  <view class="badge-wall">
+    <view class="wall-title">勋章成就</view>
+    
+    <view class="badge-grid">
+      <block wx:for="{{badgeList}}" wx:key="id">
+        <view class="badge-item {{item.isUnlocked ? '' : 'locked'}}">
+          <image src="{{item.icon}}" class="badge-icon"></image>
+          <text class="badge-name">{{item.name}}</text>
+          <text class="badge-desc" wx:if="{{!item.isUnlocked}}">{{item.threshold}}分后解锁</text>
+          <text class="badge-status" wx:else>已解锁</text>
+        </view>
+      </block>
+    </view>
+  </view>
+</view>

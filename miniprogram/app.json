@@ -1,0 +1,55 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/map/index",
+    "pages/achievement/index",
+    "pages/rank/index",
+    "pages/me/index",
+    "pages/example/index",
+    "images/leaf.png"
+  ],
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#07C160",
+    "navigationBarTitleText": "智能垃圾分类助手",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#07C160",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "分类识别"
+      },
+      {
+        "pagePath": "pages/map/index",
+        "text": "找垃圾桶"
+      },
+      {
+        "pagePath": "pages/achievement/index",
+        "text": "我的成就"
+      },
+      {
+        "pagePath": "pages/rank/index",
+        "text": "排行榜"
+      },
+      {
+        "pagePath": "pages/me/index",
+        "text": "个人中心"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents",
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于显示附近垃圾投放点"
+    }
+  },
+  "networkTimeout": {},
+"requiredPrivateInfos": ["getLocation"]
+}

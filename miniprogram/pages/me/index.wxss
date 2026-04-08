@@ -1,0 +1,89 @@
+/* pages/me/index.wxss */
+.me-container {
+  background-color: #f7f7f7;
+  min-height: 100vh;
+}
+
+/* 头部卡片 */
+.user-card {
+  background-color: #07c160;
+  height: 350rpx;
+  display: flex;
+  align-items: center;
+  padding: 0 50rpx;
+  border-radius: 0 0 40rpx 40rpx;
+}
+
+/* 头像按钮：去掉原生样式 */
+.avatar-wrapper {
+  padding: 0;
+  width: 140rpx !important;
+  height: 140rpx !important;
+  border-radius: 50%;
+  margin-right: 30rpx;
+  margin-left: 0;
+  border: 4rpx solid rgba(255, 255, 255, 0.4);
+  background: none;
+}
+
+.avatar {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 50%;
+}
+
+.nickname-input {
+  color: white;
+  font-size: 40rpx;
+  font-weight: bold;
+  height: 60rpx;
+}
+
+.user-id {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 24rpx;
+  margin-top: 10rpx;
+  display: block;
+}
+
+/* 菜单列表样式 */
+.menu-list {
+  margin: -40rpx 30rpx 0;
+  background: white;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.05);
+}
+
+.menu-item, .menu-item-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 35rpx 40rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+  background: white !important;
+  width: 100% !important;
+  font-weight: normal !important;
+  line-height: 1 !important;
+}
+
+.menu-text {
+  font-size: 30rpx;
+  color: #333;
+}
+
+.arrow {
+  color: #ccc;
+  font-size: 30rpx;
+}
+
+.logout-text {
+  color: #e64340;
+}
+
+.footer {
+  text-align: center;
+  color: #bbb;
+  font-size: 24rpx;
+  margin-top: 60rpx;
+}

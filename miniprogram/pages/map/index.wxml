@@ -1,0 +1,19 @@
+<view class="map-page">
+  <map
+    id="myMap"
+    class="main-map"
+    latitude="{{latitude}}"
+    longitude="{{longitude}}"
+    markers="{{markers}}"
+    show-location
+    bindmarkertap="onMarkerTap"
+  ></map>
+
+  <view class="bottom-panel">
+    <text class="panel-title">附近投放点</text>
+    <text class="panel-desc">已找到 {{markers.length}} 个垃圾桶</text>
+    <view class="btn-row">
+      <button class="btn-locate" bindtap="getLocation">重新定位</button>
+    </view>
+  </view>
+</view>

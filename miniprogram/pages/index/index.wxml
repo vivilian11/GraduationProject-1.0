@@ -1,0 +1,20 @@
+<view class="container">
+  <view class="header">
+    <text class="title">智能垃圾分类</text>
+    <text class="subtitle">让地球更绿，让分类更简单</text>
+  </view>
+
+  <view class="main-action">
+    <view class="camera-btn" bindtap="onTakePhoto">
+      <image src="../../images/tabber/index.png"
+      class="camera-img"></image>
+      <text>点击拍照/上传图片</text>
+    </view>
+    <text class="tip">支持识别生活垃圾、厨余垃圾等</text>
+  </view>
+
+  <view class="info-card">
+  <view class="card-title">分类小贴士</view>
+  <text class="card-content">{{currentTip}}</text>
+ </view>
+</view>

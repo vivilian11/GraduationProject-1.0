@@ -1,0 +1,137 @@
+/* pages/rank/index.wxss */
+.rank-container {
+  background-color: #f7f7f7;
+  min-height: 100vh;
+}
+
+.rank-header {
+  background-color: #07c160;
+  color: white;
+  padding: 60rpx 40rpx;
+  text-align: center;
+  border-radius: 0 0 40rpx 40rpx;
+}
+
+.title {
+  font-size: 40rpx;
+  font-weight: bold;
+}
+
+.subtitle {
+  font-size: 24rpx;
+  display: block;
+  opacity: 0.8;
+  margin-top: 10rpx;
+}
+
+.rank-list {
+  padding: 30rpx;
+}
+
+.rank-item {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.03);
+  position: relative;
+}
+
+/* 前三名高亮样式 */
+.top-one {
+  border: 1rpx solid #ffd700; 
+}
+.top-two{
+  border: 1rpx solid #C0C0C0;
+}
+.top-three{
+  border: 1rpx solid #CD7F32;
+}
+
+/* 前缀区：奖杯或名次 */
+.rank-prefix {
+  width: 80rpx;
+  text-align: center;
+}
+
+.cup-icon {
+  width: 64rpx;
+  height: 64rpx;
+}
+
+.rank-number {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #888;
+}
+
+/* 头像修圆 */
+.user-avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  margin: 0 30rpx;
+  border: 4rpx solid #eee;
+  background-color: #f8f8f8;
+  display: block;
+  overflow: hidden; 
+}
+
+.user-info {
+  flex: 1; /* 撑开中间区域 */
+}
+
+.user-nickname {
+  font-size: 32rpx;
+  color: #333;
+  display: block;
+}
+
+.user-points {
+  font-size: 28rpx;
+  color: #07c160;
+  font-weight: bold;
+}
+
+/* 等级标签样式 */
+.level-tag {
+  background-color: #eee;
+  color: #888;
+  font-size: 20rpx;
+  padding: 5rpx 15rpx;
+  border-radius: 20rpx;
+  position: absolute;
+  top: 30rpx;
+  right: 30rpx;
+}
+
+.master {
+  background-color: rgba(255, 215, 0, 0.1);
+  color: #ffd700;
+}
+
+/* 新增切换标签样式 */
+.tab-box {
+  display: flex;
+  justify-content: center;
+  margin-top: 30rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 40rpx;
+  padding: 5rpx;
+}
+
+.tab-item {
+  flex: 1;
+  font-size: 28rpx;
+  padding: 15rpx 0;
+  border-radius: 35rpx;
+  transition: all 0.3s;
+}
+
+.tab-item.active {
+  background: white;
+  color: #07c160;
+  font-weight: bold;
+}

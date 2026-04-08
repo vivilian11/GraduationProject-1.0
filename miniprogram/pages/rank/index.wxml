@@ -1,0 +1,41 @@
+<!--pages/rank/index.wxml-->
+<view class="rank-container">
+  <view class="rank-header">
+    <text class="title">环保排行榜</text>
+    <text class="subtitle">让每一次分类都闪闪发光</text>
+    <view class="tab-box">
+      <view class="tab-item {{activeTab === 'total' ? 'active' : ''}}" bindtap="switchTab" data-type="total">总榜</view>
+      <view class="tab-item {{activeTab === 'day' ? 'active' : ''}}" bindtap="switchTab" data-type="day">今日</view>
+      <view class="tab-item {{activeTab === 'mouth' ? 'active' : ''}}" bindtap="switchTab" data-type="mouth">本月</view>
+    </view>
+  </view>
+
+  <view class="rank-list">
+    <block wx:for="{{rankList}}" wx:key="_id">
+      <view class="rank-item {{index === 0 ? 'top-one' : (index === 1 ? 'top-two' : (index === 2 ? 'top-three' : ''))}}">
+        
+        <view class="rank-prefix">
+          <image wx:if="{{index < 3}}" src="/images/rank/cup_{{index + 1}}.png"   class="cup-icon"></image>
+          <text wx:else class="rank-number">{{index + 1}}</text>
+        </view>
+
+        <image 
+  class="user-avatar" 
+  mode="aspectFill" 
+  src="{{ (item.userInfo && item.userInfo[0] && item.userInfo[0].avatarUrl) ? item.userInfo[0].avatarUrl : '/images/avatar.png'}}"
+></image>
+
+        <view class="user-info">
+          <text class="user-nickname">{{item.userInfo[0].nickName || '环保小卫士'}}</text>
+          <text class="user-points">{{item.totalPoints}} 分</text>
+        </view>
+        
+        <view class="level-tag {{item.totalPoints >= 50 ? 'master' : ''}}">
+          <text wx:if="{{item.totalPoints >= 50}}">大师</text>
+          <text wx:elif="{{item.totalPoints >= 25}}">精英</text>
+          <text wx:else>萌新</text>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

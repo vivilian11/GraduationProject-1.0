@@ -1,0 +1,91 @@
+/* pages/achievement/index.wxss */
+.container {
+  background-color: #f6f6f6;
+  min-height: 100vh;
+  padding: 30rpx;
+}
+
+/* 积分头部样式 */
+.points-header {
+  background-color: #07c160;
+  color: white;
+  border-radius: 20rpx;
+  padding: 60rpx;
+  text-align: center;
+  margin-bottom: 40rpx;
+  box-shadow: 0 4rpx 12rpx rgba(7, 193, 96, 0.2);
+}
+
+.points-title {
+  font-size: 32rpx;
+  display: block;
+  opacity: 0.8;
+}
+
+.points-number {
+  font-size: 80rpx;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.points-unit {
+  font-size: 32rpx;
+  margin-left: 10rpx;
+}
+
+/* 勋章墙样式 */
+.badge-wall {
+  background-color: white;
+  border-radius: 20rpx;
+  padding: 40rpx;
+}
+
+.wall-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 40rpx;
+  text-align: center;
+}
+
+/* 网格布局 */
+.badge-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 三列 */
+  gap: 30rpx; /* 间距 */
+}
+
+.badge-item {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.3s;
+}
+
+.badge-icon {
+  width: 128rpx;
+  height: 128rpx;
+  margin-bottom: 15rpx;
+}
+
+.badge-name {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.badge-status, .badge-desc {
+  font-size: 24rpx;
+  color: #888;
+}
+
+/* --- 核心：未解锁样式的 CSS 魔法 --- */
+.locked .badge-icon {
+  filter: grayscale(100%); /* 把图标变成灰色 */
+  opacity: 0.5; /* 半透明 */
+}
+
+.locked .badge-name, .locked .badge-desc {
+  color: #aaa;
+}
