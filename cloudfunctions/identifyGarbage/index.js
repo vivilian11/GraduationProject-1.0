@@ -1,23 +1,24 @@
 // cloudfunctions/identifyGarbage/index.js
+const config = require('cloudfunctions\identifyGarbage\config.json')
 const cloud = require('wx-server-sdk')
 const axios = require('axios')
 const qs = require('qs')
 
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 
-// ===================== 配置区 =====================
-const BAIDU_API_KEY = 'DjaJX8t1knCuL7WSKCAgqCRt'
-const BAIDU_SECRET_KEY = 'YfsnX5Fnz6jcTTQwdAA6THjjrKdpGf2m'
-const TIAN_API_KEY = 'e58e7ab63e24c2bd9e673871987c1fef'
+// api密钥
+const BAIDU_API_KEY = 'config.BAIDU_API_KEY'
+const BAIDU_SECRET_KEY = 'config.BAIDU_SECRET_KEY'
+const TIAN_API_KEY = 'config.TIAN_API_KEY'
 
-// 百度 Token 缓存（云函数实例生命周期内有效，减少重复请求）
+// 百度 Token 缓存
 let cachedToken = null
 let tokenExpireTime = 0
 
 // 天行垃圾分类类型映射：0可回收、1有害、2厨余、3其他
 const TYPE_MAP = ['可回收物', '有害垃圾', '厨余垃圾', '其他垃圾']
 
-// ===================== 获取百度 Token（带缓存）=====================
+// 获取百度 Token（带缓存）
 async function getBaiduToken() {
   const now = Date.now()
   if (cachedToken && now < tokenExpireTime) {
@@ -46,7 +47,7 @@ async function getBaiduToken() {
   return cachedToken
 }
 
-// ===================== 调用百度通用物体识别 =====================
+// 调用百度通用物体识别 
 async function baiduIdentify(imageBase64, token) {
   // 百度 API 限制 Base64 图片不超过 4MB
   const base64SizeKB = Buffer.byteLength(imageBase64, 'utf8') / 1024
@@ -54,7 +55,7 @@ async function baiduIdentify(imageBase64, token) {
     throw new Error(`图片 Base64 过大（${Math.round(base64SizeKB)}KB），请压缩后上传`)
   }
 
-  // 使用 advanced_general（高级通用物体识别）比 generic 更精准
+  // 使用高级通用物体识别
   const url = `https://aip.baidubce.com/rest/2.0/image-classify/v2/advanced_general?access_token=${token}`
   const res = await axios.post(
     url,
@@ -82,7 +83,7 @@ async function baiduIdentify(imageBase64, token) {
   return filtered.length > 0 ? filtered[0].keyword : null
 }
 
-// ===================== 调用天行垃圾分类 =====================
+// 调用天行垃圾分类
 async function tianClassify(keyword) {
   const url = 'https://apis.tianapi.com/lajifenlei/index'
   const res = await axios.post(
@@ -111,7 +112,7 @@ async function tianClassify(keyword) {
 
   return { found: false }
 }
-// ===================== 兜底：正则关键词匹配 =====================
+//兜底：正则关键词匹配 
 function fallbackClassify(keyword) {
   const rules = [
     {
@@ -148,7 +149,7 @@ function fallbackClassify(keyword) {
   }
 }
 
-// ===================== 云函数入口 =====================
+//云函数入口
 exports.main = async (event, context) => {
   const { fileID } = event
 
@@ -157,57 +158,57 @@ exports.main = async (event, context) => {
   }
 
   try {
-    // --- 第一步：从云存储下载图片并转 Base64 ---
-    console.log('【步骤1】开始下载云存储文件：', fileID)
+    // 从云存储下载图片并转 Base64 
+    console.log('开始下载云存储文件：', fileID)
     let fileRes
     try {
       fileRes = await cloud.downloadFile({ fileID })
     } catch (downloadErr) {
-      console.error('【步骤1】下载失败：', downloadErr)
+      console.error('下载失败：', downloadErr)
       return { success: false, msg: '图片下载失败，请检查 fileID 是否有效' }
     }
     const imageBase64 = fileRes.fileContent.toString('base64')
-    console.log('【步骤1】Base64 转换完成，大小约：', Math.round(Buffer.byteLength(imageBase64, 'utf8') / 1024), 'KB')
+    console.log('Base64 转换完成，大小约：', Math.round(Buffer.byteLength(imageBase64, 'utf8') / 1024), 'KB')
 
-    // --- 第二步：获取百度 Token ---
-    console.log('【步骤2】获取百度 Token')
+    // 获取百度 Token
+    console.log('获取百度 Token')
     let baiduToken
     try {
       baiduToken = await getBaiduToken()
     } catch (tokenErr) {
-      console.error('【步骤2】Token 获取失败：', tokenErr.message)
+      console.error('Token 获取失败：', tokenErr.message)
       return { success: false, msg: '连接识别服务失败，请稍后重试' }
     }
 
-    // --- 第三步：百度图像识别 ---
+    // 百度图像识别
     console.log('【步骤3】调用百度识图')
     let keyword
     try {
       keyword = await baiduIdentify(imageBase64, baiduToken)
     } catch (baiduErr) {
-      console.error('【步骤3】百度识别失败：', baiduErr.message)
+      console.error('百度识别失败：', baiduErr.message)
       return { success: false, msg: baiduErr.message || '图片识别失败，请换个角度重新拍摄' }
     }
 
     if (!keyword) {
       return { success: false, msg: '未能识别图片内容，请确保画面清晰且主体明显' }
     }
-    console.log('【步骤3】识别关键词：', keyword)
+    console.log('识别关键词：', keyword)
 
     // --- 第四步：天行垃圾分类 ---
-    console.log('【步骤4】调用天行分类，词：', keyword)
+    console.log('调用天行分类，词：', keyword)
     let tianResult
     try {
       tianResult = await tianClassify(keyword)
     } catch (tianErr) {
       // 天行失败不影响兜底，降级处理
-      console.warn('【步骤4】天行接口异常，降级到兜底：', tianErr.message)
+      console.warn('天行接口异常，降级到兜底：', tianErr.message)
       tianResult = { found: false }
     }
 
     // 情况 A：天行成功匹配
     if (tianResult.found) {
-      console.log('【结果】天行匹配成功：', tianResult.type)
+      console.log('天行匹配成功：', tianResult.type)
       return {
         success: true,
         source: 'tianapi',  // 标注数据来源，方便前端调试
@@ -219,10 +220,10 @@ exports.main = async (event, context) => {
       }
     }
 
-    // 情况 B：天行未匹配，启动正则兜底
-    console.log('【步骤5】启动兜底正则匹配，词：', keyword)
+    // 天行未匹配，启动正则兜底
+    console.log('启动兜底正则匹配，词：', keyword)
     const fallback = fallbackClassify(keyword)
-    console.log('【结果】兜底匹配结果：', fallback.type)
+    console.log('兜底匹配结果：', fallback.type)
 
     return {
       success: true,
@@ -235,7 +236,7 @@ exports.main = async (event, context) => {
     }
   } catch (e) {
     // 兜住所有意外异常
-    console.error('【严重错误】未预期异常：', e.message, e.stack)
+    console.error('未预期异常：', e.message, e.stack)
     return { success: false, msg: '系统发生未知错误，请稍后再试' }
   }
 }

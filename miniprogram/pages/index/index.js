@@ -1,7 +1,7 @@
 // pages/index/index.js
 Page({
   data: {
-    // 1. 环保知识库
+    //环保知识库
     tipsList: [
       "过期的化妆品属于有害垃圾哦。",
       "喝完的塑料瓶记得踩扁，可以节省回收空间。",
@@ -28,7 +28,7 @@ Page({
     });
   },
 
-  // --- 拍照识别逻辑 ---
+  // 拍照识别逻辑
   onTakePhoto: function() {
     wx.chooseImage({
       count: 1,
@@ -66,14 +66,14 @@ Page({
         if (res.result && res.result.success) {
           const result = res.result.data;
           
-          // 1. 先弹窗告诉用户结果
+          // 先弹窗告诉用户结果
           wx.showModal({
             title: `识别成功：${result.name}`,
             content: `属于：${result.type}`,
             confirmText: '去打卡',
             success: (modalRes) => {
               if (modalRes.confirm) {
-                // 2. 【核心代码】用户点“去打卡”，存入数据库
+                // 用户点“去打卡”，存入数据库
                 const db = wx.cloud.database();
                 db.collection('garbage_records').add({
                   data: {
@@ -101,6 +101,6 @@ Page({
         wx.hideLoading();
         console.error('云函数调用失败', err);
       }
-    }) // 对应 callFunction 的结束
-  } // 对应 callAIIdentify 的结束
+    }) 
+  }
 })

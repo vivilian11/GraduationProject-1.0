@@ -12,7 +12,7 @@ Page({
     this.checkUser();
   },
 
-  // 1. 检查用户是否已经登录过
+  // 检查用户是否已经登录过
   async checkUser() {
     const db = wx.cloud.database();
     const res = await db.collection('users').get();
@@ -24,7 +24,7 @@ Page({
     }
   },
 
-  // 2. 选择头像
+  // 选择头像
   onChooseAvatar(e) {
     const { avatarUrl } = e.detail;
     //把头像数据更新到data
@@ -32,14 +32,14 @@ Page({
     this.saveUserProfile();
   },
 
-  // 3. 输入昵称
+  // 输入昵称
   onInputNickname(e) {
     const nickName = e.detail.value;
     this.setData({ "userInfo.nickName": nickName });
     this.saveUserProfile();
   },
 
-  // 4. 保存到数据库
+  // 保存到数据库
   async saveUserProfile() {
     const db = wx.cloud.database();
     const user = this.data.userInfo;

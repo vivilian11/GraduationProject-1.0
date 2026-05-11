@@ -2,13 +2,13 @@
 Page({
   data: {
     totalPoints: 0, // 初始总积分
-    // 预设勋章列表（你需要换成你真实的图片路径和名字）
+    // 预设勋章列表
     badgeList: [
       {
         id: 1,
         name: '分类萌新-一级',
         threshold: 5, // 解锁门槛
-        icon: '/images/achievements/badge_1.png', // 你下载的图片
+        icon: '/images/achievements/badge_1.png', 
         isUnlocked: false // 初始状态：未解锁
       },
       {
@@ -75,23 +75,23 @@ Page({
     this.fetchTotalPoints();
   },
 
-  // --- 核心逻辑：去云数据库算分 ---
+  // 核心逻辑：去云数据库算分 
   async fetchTotalPoints() {
     wx.showLoading({ title: '计算积分中...' });
     
     try {
       const db = wx.cloud.database();
-      // 1. 获取这个用户所有的垃圾打卡记录
+      // 获取这个用户所有的垃圾打卡记录
       const res = await db.collection('garbage_records').get();
       const records = res.data;
 
-      // 2. 累加积分（遍历记录，把 points 字段加起来）
+      // 累加积分
       let sum = 0;
       records.forEach(item => {
-        sum += item.points; // 这里就用到了你截图里的那个 detailed points 字段！
+        sum += item.points; 
       });
 
-      // 3. 计算勋章解锁状态
+      //  计算勋章解锁状态
       const updatedBadgeList = this.data.badgeList.map(badge => {
         if (sum >= badge.threshold) {
           return { ...badge, isUnlocked: true }; // 积分够了，设为已解锁
@@ -99,7 +99,7 @@ Page({
         return badge;
       });
 
-      // 4. 更新界面数据
+      // 更新界面数据
       this.setData({
         totalPoints: sum,
         badgeList: updatedBadgeList
